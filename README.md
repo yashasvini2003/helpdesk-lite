@@ -4,13 +4,13 @@ HelpDesk Lite is a small web application I built to understand how IT support te
 
 ---
 
-## 📺 Project Walkthrough Video (YouTube)
+## Project Walkthrough Video (YouTube)
 *I will update this section with my YouTube link once my video is ready.*
 **YouTube Link:** *Coming soon…*
 
 ---
 
-## ⭐ What This App Does
+## What This App Does
 
 ### 1. Create Support Tickets
 Users can submit a ticket by filling out:
@@ -50,7 +50,7 @@ This helped me understand how issues move from being reported to being fully res
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 I built this with simple tools so I could focus more on the logic and process rather than complex setups.
 
@@ -65,7 +65,7 @@ The goal was to keep everything lightweight and practical.
 
 ---
 
-## 🚀 How to Run the Project
+## How to Run the Project
 
 ### 1. Clone the repository
 git clone https://github.com/yashasvini2003/helpdesk-lite.git
@@ -102,7 +102,7 @@ You can then create tickets, update them, add troubleshooting notes, and try the
 
 ---
 
-## 🎯 Why I Built This Project
+## Why I Built This Project
 
 I wanted something practical that shows I understand how IT support works in real companies. Most IT teams rely heavily on ticketing systems, and building one from scratch helped me learn:
 - How tickets are created and tracked  
@@ -115,7 +115,7 @@ This project helped me connect the theoretical concepts from my program to somet
 
 ---
 
-## 🧠 What I Learned
+## What I Learned
 
 Building this project taught me:
 - How help desk systems function behind the scenes  
@@ -130,7 +130,7 @@ Most importantly, it helped me understand the perspective of someone working in 
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 Here are some ideas I may add in the future:
 - Login system (staff vs normal users)  
@@ -141,9 +141,8 @@ Here are some ideas I may add in the future:
 
 ---
 
-## 🙌 Final Thoughts
+## Final Thoughts
 
 HelpDesk Lite may be a small project, but creating it helped me understand the everyday workflow of IT support teams. It gave me a better understanding of how issues are logged, tracked, updated, and resolved. This project also helped me improve my troubleshooting process and learn to think like someone working in technical support.  
 
 Thank you for checking out my project!
-
