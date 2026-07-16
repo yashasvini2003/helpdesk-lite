@@ -4,12 +4,6 @@ HelpDesk Lite is a small web application I built to understand how IT support te
 
 ---
 
-## Project Walkthrough Video (YouTube)
-*I will update this section with my YouTube link once my video is ready.*
-**YouTube Link:** *Coming soon…*
-
----
-
 ## What This App Does
 
 ### 1. Create Support Tickets
