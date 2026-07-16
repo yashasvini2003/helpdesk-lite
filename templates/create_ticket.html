@@ -45,13 +45,33 @@
     <textarea name="description" class="form-control" rows="4" required></textarea>
   </div>
 
-  <div class="mb-3">
-    <label class="form-label">Priority *</label>
-    <select name="priority" class="form-select" required>
-      <option value="Low">Low</option>
-      <option value="Medium" selected>Medium</option>
-      <option value="High">High</option>
-    </select>
+  <div class="row">
+    <div class="mb-3 col-md-4">
+      <label class="form-label">Priority *</label>
+      <select name="priority" class="form-select" required>
+        {% for priority in priorities %}
+          <option value="{{ priority }}" {% if priority == "Medium" %}selected{% endif %}>{{ priority }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3 col-md-4">
+      <label class="form-label">Assigned Team</label>
+      <select name="assigned_team" class="form-select">
+        <option>Service Desk</option>
+        <option>Application Support</option>
+        <option>Infrastructure</option>
+        <option>Security Operations</option>
+      </select>
+    </div>
+    <div class="mb-3 col-md-4">
+      <label class="form-label">Business Impact</label>
+      <select name="business_impact" class="form-select">
+        <option>Single user</option>
+        <option>Multiple users</option>
+        <option>Department</option>
+        <option>Enterprise</option>
+      </select>
+    </div>
   </div>
 
   <button type="submit" class="btn btn-primary">Create Ticket</button>

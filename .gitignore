@@ -1,3 +1,7 @@
 .venv/
 __pycache__/
 helpdesk.db
+.coverage
+.pytest_cache/
+reports/
+*.db-journal

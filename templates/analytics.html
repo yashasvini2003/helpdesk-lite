@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-1">Operational Analytics</h2>
+    <p class="text-muted mb-0">SQL-driven issue trends, SLA risk, and data-quality findings.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="{{ url_for('export_sla_report') }}" class="btn btn-outline-primary">Export SLA CSV</a>
+    <form method="post" action="{{ url_for('run_automated_triage') }}">
+      <button class="btn btn-danger" type="submit">Run Automated Triage</button>
+    </form>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  {% set summary = analysis.summary %}
+  <div class="col-md"><div class="metric-card"><span>Total Tickets</span><strong>{{ summary.total_tickets }}</strong></div></div>
+  <div class="col-md"><div class="metric-card"><span>Active</span><strong>{{ summary.active_tickets }}</strong></div></div>
+  <div class="col-md"><div class="metric-card"><span>Escalated</span><strong>{{ summary.escalated_tickets }}</strong></div></div>
+  <div class="col-md"><div class="metric-card danger"><span>SLA Breaches</span><strong>{{ summary.sla_breaches }}</strong></div></div>
+  <div class="col-md"><div class="metric-card"><span>Avg. Resolution</span><strong>{{ summary.average_resolution_hours }}h</strong></div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card h-100">
+      <div class="card-body">
+        <h4>Recurring Issue Analysis</h4>
+        <p class="text-muted">Categories ranked by volume to focus root-cause investigation.</p>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle">
+            <thead><tr><th>Category</th><th>Volume</th><th>Share</th><th>Active</th><th>Escalated</th><th>Avg. Age</th></tr></thead>
+            <tbody>
+              {% for row in analysis.root_causes %}
+                <tr>
+                  <td>{{ row.category }}</td>
+                  <td>{{ row.ticket_count }}</td>
+                  <td>{{ row.share_percent }}%</td>
+                  <td>{{ row.active_count }}</td>
+                  <td>{{ row.escalated_count }}</td>
+                  <td>{{ row.average_age_hours }}h</td>
+                </tr>
+              {% else %}
+                <tr><td colspan="6" class="text-muted">Add tickets to generate analysis.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card h-100">
+      <div class="card-body">
+        <h4>Data-Quality Review</h4>
+        <p class="text-muted">Missing information that may delay investigation or reporting.</p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between"><span>Missing category</span><strong>{{ analysis.data_quality.missing_category }}</strong></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Missing location</span><strong>{{ analysis.data_quality.missing_location }}</strong></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Missing resolution</span><strong>{{ analysis.data_quality.missing_resolution }}</strong></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Missing root cause</span><strong>{{ analysis.data_quality.missing_root_cause }}</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-4">
+  <div class="card-body">
+    <h4>SLA Risk Queue</h4>
+    <p class="text-muted">Open work that consumed at least 75% of its configured service target.</p>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead><tr><th>ID</th><th>Issue</th><th>Priority</th><th>Team</th><th>Age</th><th>SLA Used</th><th>Risk</th></tr></thead>
+        <tbody>
+          {% for ticket in analysis.sla_risks %}
+            <tr>
+              <td><a href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}">#{{ ticket.id }}</a></td>
+              <td>{{ ticket.title }}</td>
+              <td>{{ ticket.priority }}</td>
+              <td>{{ ticket.assigned_team }}</td>
+              <td>{{ ticket.age_hours }}h</td>
+              <td>{{ ticket.sla_consumed_percent }}%</td>
+              <td><span class="badge text-bg-danger">{{ ticket.risk_status }}</span></td>
+            </tr>
+          {% else %}
+            <tr><td colspan="7" class="text-muted">No active tickets are currently at risk.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

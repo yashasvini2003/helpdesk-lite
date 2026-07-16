@@ -1,142 +1,105 @@
-# HelpDesk Lite – Simple IT Support Ticket System
+# HelpDesk Lite — Technical Operations Analytics
 
-HelpDesk Lite is a small web application I built to understand how IT support teams manage tickets, troubleshoot technical issues, and keep track of ongoing user problems. In many workplaces, employees raise support requests when something is not working, and IT teams use ticketing systems to record the issue, update its progress, and document every step taken. I wanted to learn this process properly, so I created my own basic help desk system to practice how a real support environment works.
+HelpDesk Lite is a self-directed Python and SQL project that translates operational support requirements into a working ticket, investigation, escalation, and reporting workflow. It combines a Flask application with SQLite analytics, repeatable Python automation, technical specifications, use cases, process models, requirements traceability, and automated tests.
 
----
+## Business problem
 
-## What This App Does
+Operational teams need more than a list of tickets. They need consistent intake data, clear ownership, SLA visibility, documented investigation findings, audit history, and concise reporting that helps stakeholders understand where attention is required.
 
-### 1. Create Support Tickets
-Users can submit a ticket by filling out:
-- Requester name  
-- Email  
-- Device type (desktop, laptop, printer, mobile device, etc.)  
-- Issue title  
-- Description  
-- Priority (Low, Medium, High)
+This project demonstrates that business-to-technology translation through:
 
-### 2. View All Tickets
-All submitted tickets are shown in a clean, easy-to-read table with:
-- Ticket ID  
-- Title  
-- Requester  
-- Device type  
-- Priority  
-- Status  
-- Created date  
+- Structured issue intake and validation
+- Priority, impact, assignment, and escalation workflows
+- Root-cause and resolution documentation
+- SQL analysis of recurring issues, SLA exposure, resolution time, and data quality
+- Python automation for SLA triage and JSON reporting
+- CSV output for downstream reporting tools
+- Technical specifications, use cases, process diagrams, and a traceability matrix
+- Automated tests and GitHub Actions validation
 
-You can also filter tickets by their status so you can quickly see what needs attention.
+## Technology
 
-### 3. Update Tickets
-When you click on a ticket, you can:
-- Change the ticket status  
-- Update the priority  
-- Add troubleshooting notes  
+- **Python 3.12** — application logic, automation, report generation, and testing
+- **Flask** — web routes and user workflows
+- **SQLite / SQL** — persistence, aggregation, CTEs, window functions, and risk queries
+- **Bootstrap / Jinja** — responsive user interface
+- **GitHub Actions** — automated validation during release changes
 
-When new notes are added, they are automatically time-stamped so you can keep track of what happened and when.
+## Core workflow
 
-### 4. Follow an IT Support Workflow
-The app uses a very simple but realistic workflow that IT support teams commonly follow:
+1. Record a request with business and technical context.
+2. Assign priority, impact, ownership, and a priority-based SLA.
+3. Investigate, document findings, and track auditable changes.
+4. Escalate tickets manually or through the Python SLA automation.
+5. Record root cause, resolution, and related change references.
+6. Review operational trends and export reports for stakeholders.
 
-**Open → In Progress → Resolved → Closed**
+## Analytics and scripting
 
-This helped me understand how issues move from being reported to being fully resolved.
+`analytics.py` runs SQL queries that calculate:
 
----
+- Total, active, escalated, and SLA-breached ticket counts
+- Average resolution time
+- Recurring issue categories and their share of total volume
+- Tickets that consumed at least 75% of their SLA
+- Missing category, location, root-cause, and resolution information
 
-## Tech Stack
+Generate a JSON report:
 
-I built this with simple tools so I could focus more on the logic and process rather than complex setups.
+```bash
+python -m scripts.analyze_tickets --database helpdesk.db
+```
 
-- Python  
-- Flask  
-- SQLite (database file that gets created automatically)  
-- HTML  
-- CSS  
-- Bootstrap for quick styling  
+Run automated SLA triage:
 
-The goal was to keep everything lightweight and practical.
+```bash
+python -m scripts.triage_sla --database helpdesk.db
+```
 
----
+Load deterministic demonstration data into an empty database:
 
-## How to Run the Project
+```bash
+python -m scripts.seed_demo_data --database helpdesk.db
+```
 
-### 1. Clone the repository
-git clone https://github.com/yashasvini2003/helpdesk-lite.git
+## Run locally
 
-cd helpdesk-lite
+```bash
+python -m venv .venv
+```
 
+Windows:
 
-### 2. Create a virtual environment
-python -m venv venv
-
-
-### 3. Activate the virtual environment
-**Windows** - 
-venv\Scripts\activate
-
-**macOS / Linux** - 
-source venv/bin/activate
-
-
-### 4. Install Flask
-pip install flask
-
-
-### 5. Run the application
+```powershell
+.venv\Scripts\activate
+pip install -r requirements.txt
 python app.py
+```
 
+macOS or Linux:
 
-Once the server is running, open your browser and go to:
-http://127.0.0.1:5000
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
 
+Open `http://127.0.0.1:5000`.
 
+## Test
 
-You can then create tickets, update them, add troubleshooting notes, and try the basic IT support workflow.
+```bash
+python -m unittest discover -v
+python -m compileall -q .
+```
 
----
+## Technical artifacts
 
-## Why I Built This Project
+- [Technical specification](docs/TECHNICAL_SPECIFICATION.md)
+- [Use cases and process model](docs/USE_CASES_AND_PROCESS.md)
+- [Requirements traceability](docs/REQUIREMENTS_TRACEABILITY.md)
+- [Release notes](docs/RELEASE_NOTES.md)
 
-I wanted something practical that shows I understand how IT support works in real companies. Most IT teams rely heavily on ticketing systems, and building one from scratch helped me learn:
-- How tickets are created and tracked  
-- How status changes work  
-- Why documenting troubleshooting steps is important  
-- How IT support organizes and prioritizes tasks  
-- What the lifecycle of a technical issue looks like  
+## Scope note
 
-This project helped me connect the theoretical concepts from my program to something hands-on.
-
----
-
-## What I Learned
-
-Building this project taught me:
-- How help desk systems function behind the scenes  
-- How incident workflows are structured  
-- How to organize and update tickets  
-- Writing clear troubleshooting steps  
-- How to use Flask to build a web application  
-- How to connect a Python app to a database (SQLite)  
-- How to structure a simple, clean project  
-
-Most importantly, it helped me understand the perspective of someone working in technical support and how important communication and documentation are.
-
----
-
-## Future Improvements
-
-Here are some ideas I may add in the future:
-- Login system (staff vs normal users)  
-- Option to upload screenshots  
-- Email notifications when ticket status changes  
-- Better search and filtering  
-- Dashboard for statistics  
-
----
-
-## Final Thoughts
-
-HelpDesk Lite may be a small project, but creating it helped me understand the everyday workflow of IT support teams. It gave me a better understanding of how issues are logged, tracked, updated, and resolved. This project also helped me improve my troubleshooting process and learn to think like someone working in technical support.  
-
-Thank you for checking out my project!
+This is a portfolio demonstration, not a deployed enterprise service. Authentication, notifications, production monitoring integrations, and high-availability infrastructure are intentionally outside its current scope.

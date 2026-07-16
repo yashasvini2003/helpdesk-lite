@@ -2,14 +2,20 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Tickets</h2>
-  <form class="d-flex" method="get" action="{{ url_for('list_tickets') }}">
-    <label class="me-2">Status:</label>
+  <form class="d-flex align-items-center gap-2" method="get" action="{{ url_for('list_tickets') }}">
+    <label>Status:</label>
     <select name="status" class="form-select form-select-sm me-2">
       <option value="all" {% if status_filter == "all" %}selected{% endif %}>All</option>
-      <option value="Open" {% if status_filter == "Open" %}selected{% endif %}>Open</option>
-      <option value="In Progress" {% if status_filter == "In Progress" %}selected{% endif %}>In Progress</option>
-      <option value="Resolved" {% if status_filter == "Resolved" %}selected{% endif %}>Resolved</option>
-      <option value="Closed" {% if status_filter == "Closed" %}selected{% endif %}>Closed</option>
+      {% for status in statuses %}
+        <option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>{{ status }}</option>
+      {% endfor %}
+    </select>
+    <label>Priority:</label>
+    <select name="priority" class="form-select form-select-sm me-2">
+      <option value="all" {% if priority_filter == "all" %}selected{% endif %}>All</option>
+      {% for priority in priorities %}
+        <option value="{{ priority }}" {% if priority_filter == priority %}selected{% endif %}>{{ priority }}</option>
+      {% endfor %}
     </select>
     <button class="btn btn-primary btn-sm" type="submit">Filter</button>
   </form>
@@ -24,6 +30,8 @@
       <th>Device</th>
       <th>Priority</th>
       <th>Status</th>
+      <th>Assigned Team</th>
+      <th>Escalated</th>
       <th>Created</th>
       <th></th>
     </tr>
@@ -37,6 +45,14 @@
         <td>{{ ticket.device_type }}</td>
         <td>{{ ticket.priority }}</td>
         <td>{{ ticket.status }}</td>
+        <td>{{ ticket.assigned_team }}</td>
+        <td>
+          {% if ticket.escalated %}
+            <span class="badge text-bg-danger">Yes</span>
+          {% else %}
+            <span class="text-muted">No</span>
+          {% endif %}
+        </td>
         <td>{{ ticket.created_at }}</td>
         <td>
           <a href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}" class="btn btn-sm btn-outline-secondary">
@@ -46,7 +62,7 @@
       </tr>
     {% else %}
       <tr>
-        <td colspan="8" class="text-center">No tickets found.</td>
+        <td colspan="10" class="text-center">No tickets found.</td>
       </tr>
     {% endfor %}
   </tbody>

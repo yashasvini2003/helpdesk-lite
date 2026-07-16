@@ -6,3 +6,28 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+.metric-card {
+  height: 100%;
+  border: 1px solid #dee2e6;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.metric-card span {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.metric-card strong {
+  font-size: 1.6rem;
+}
+
+.metric-card.danger {
+  border-color: #dc3545;
+  background: #fff7f8;
+}
